@@ -3,25 +3,26 @@ IDL code for Time Normalized Optical Flow method, suitable for solar atmospheric
 
 Top level program is tnof.pro
 
-;Name: TNOF
-;
-;Purpose: Time Normalized Optical Flow. 
-; Implements TNOF method on datacube, method described in https://arxiv.org/abs/2206.09640 
-; If you use this method in published work, please cite:
-;   https://arxiv.org/abs/2206.11077 (or paired Astrophysical Journal Letter)
-;   https://arxiv.org/abs/2206.09640 (or paired Solar Physics article)
-; Method applies the following main steps:
-;   - image alignment, so removing any residual translation caused by e.g. solar rotation
-;   - rebinning. Recommended for full-resolution AIA/SDO images, IRIS etc.
-;   - time-normalization. A processing step based on bandpass filtering and amplitude 
-;     normalization in the time domain, see papers.
-;   - A TROUS decomposition, to remove the highest spatial frequencies (noise reduction). 
-;     This step greatly improves the clarity of results.
-;   - Modified Lucas-Kanade optical flow algorithm to calculate the dominant velocity field  
-;The image alignment step can be slow, but is important. On a 1000x1000x600 datacube, it took an hour on 
-;an iMac 3.7GHz 6-core Intel i5, 32Gb RAM. Note this step is applied to the 
-;non-rebinned (full-resolution) data in order to preserve accuracy.
-;
+Name: TNOF
+
+Purpose: Time Normalized Optical Flow. 
+
+Implements TNOF method on datacube, method described in https://arxiv.org/abs/2206.09640 
+If you use this method in published work, please cite:
+   https://arxiv.org/abs/2206.11077 (or paired Astrophysical Journal Letter)
+   https://arxiv.org/abs/2206.09640 (or paired Solar Physics article)
+ Method applies the following main steps:
+   - image alignment, so removing any residual translation caused by e.g. solar rotation
+  - rebinning. Recommended for full-resolution AIA/SDO images, IRIS etc.
+   - time-normalization. A processing step based on bandpass filtering and amplitude 
+     normalization in the time domain, see papers.
+   - A TROUS decomposition, to remove the highest spatial frequencies (noise reduction). 
+     This step greatly improves the clarity of results.
+   - Modified Lucas-Kanade optical flow algorithm to calculate the dominant velocity field  
+The image alignment step can be slow, but is important. On a 1000x1000x600 datacube, it took an hour on 
+an iMac 3.7GHz 6-core Intel i5, 32Gb RAM. Note this step is applied to the 
+non-rebinned (full-resolution) data in order to preserve accuracy.
+
 ;Input variables:
 ; DATACUBE_IN: user-supplied datacube of dimensions [spatial,spatial,time] = [x,y,t]
 ; Time steps must be constant (non-varying cadence). As a guide, we recommend several hundred
