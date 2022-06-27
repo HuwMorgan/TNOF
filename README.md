@@ -23,37 +23,35 @@ The image alignment step can be slow, but is important. On a 1000x1000x600 datac
 an iMac 3.7GHz 6-core Intel i5, 32Gb RAM. Note this step is applied to the 
 non-rebinned (full-resolution) data in order to preserve accuracy.
 
-;Input variables:
-; DATACUBE_IN: user-supplied datacube of dimensions [spatial,spatial,time] = [x,y,t]
-; Time steps must be constant (non-varying cadence). As a guide, we recommend several hundred
-; time steps. Using AIA/SDO Extreme UltraViolet data, we usually use 2 hours of observations, 
-; so around 600 images. Method will find the velocity field that best satisfies the
-; observations at each spatial pixel, so no point having data that contains large temporal changes
-; such as eruptions or flares.
-; 
-; HDRS: The metadata headers corresponding to every time step. 
-;
-;Keywords:
-; rebin: user can specify the level of rebinning. Rebin = 4 (default) is recommended for AIA/SDO
-;   full-resolution data, meaning that 4x4 spatial input pixels are combined by local average into one 
-;   output pixel. NOTE that we use the IDL rebin function, which requires integer multiples of pixels, so
-;   the procedure automatically crops images to satisfy this requirement 
-;   (e.g. if Nx = 512, and rebin = 2, then output is Nx_out = 256 - a multiple that satisfies an
-;    integer divison by 2, or Nx/2, so no cropping. If Nx=513, our procedure will crop one pixel
-;    margin from the x dimension, to give Nx_new = 512, and Nx_out=256).  
-;
-; no_align: do not apply spatial alignment over time (default is to apply). 
-; 
-;Output: data structure containing the following fields:
-; hdr: header for the time step corresponding to the median time of 
-; all the image time series. This header is modified to account for any
-; cropping and rebinning. Useful for plotting coordinates etc. in subsequent plots
-; vx: the x-velocity component
-; vy: the y-velocity component
-; image: the image for the median time step. Useful for subsequent display.
-;
-; Author and history:
-;      Written by Huw Morgan 2022, hmorgan@aber.ac.uk
-;	Questions or comments welcomed.
-;       
-;-
+Input variables:
+ DATACUBE_IN: user-supplied datacube of dimensions [spatial,spatial,time] = [x,y,t]
+ Time steps must be constant (non-varying cadence). As a guide, we recommend several hundred
+ time steps. Using AIA/SDO Extreme UltraViolet data, we usually use 2 hours of observations, 
+ so around 600 images. Method will find the velocity field that best satisfies the
+ observations at each spatial pixel, so no point having data that contains large temporal changes
+ such as eruptions or flares.
+ 
+ HDRS: The metadata headers corresponding to every time step. 
+
+Keywords:
+ rebin: user can specify the level of rebinning. Rebin = 4 (default) is recommended for AIA/SDO
+   full-resolution data, meaning that 4x4 spatial input pixels are combined by local average into one 
+   output pixel. NOTE that we use the IDL rebin function, which requires integer multiples of pixels, so
+   the procedure automatically crops images to satisfy this requirement 
+   (e.g. if Nx = 512, and rebin = 2, then output is Nx_out = 256 - a multiple that satisfies an
+    integer divison by 2, or Nx/2, so no cropping. If Nx=513, our procedure will crop one pixel
+    margin from the x dimension, to give Nx_new = 512, and Nx_out=256).  
+
+ no_align: do not apply spatial alignment over time (default is to apply). 
+ 
+Output: data structure containing the following fields:
+ hdr: header for the time step corresponding to the median time of 
+ all the image time series. This header is modified to account for any
+ cropping and rebinning. Useful for plotting coordinates etc. in subsequent plots
+ vx: the x-velocity component
+ vy: the y-velocity component
+ image: the image for the median time step. Useful for subsequent display.
+
+ Author and history:
+      Written by Huw Morgan 2022, hmorgan@aber.ac.uk
+	Questions or comments welcomed.
